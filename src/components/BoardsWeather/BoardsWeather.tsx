@@ -1,22 +1,31 @@
 import * as React from 'react';
+import style from './BoardsWeather.module.scss';
 import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
+import { getCityList } from '../../store/BoardsWeather/selectors';
+import { CityBoard } from '../CityBoard';
 
 interface MainPageProps extends RouteChildrenProps {
-    boards?: Array<any>;
-    onFetchBoards?: () => void;
+    city?: Array<string>;
   }
 
   class BoardsWeather extends React.Component<MainPageProps>{
   
-    componentDidMount() {
-      }
+private renderCityBoards = ()=>
+this.props.city?.map((item, index)=>
+  <CityBoard 
+  key={index} 
+  city={item}
+  />
+);
 
 render(){
     return(
-        <div>
-           <h2> Hellow World!!!!</h2>
+        <div className={style.BoardsWeather}>
+          <div className={style.Container}>
+          {this.renderCityBoards()}
+          </div>
         </div>
     )
 }
@@ -25,7 +34,7 @@ render(){
 
   const mapStateToProps = (state: AppState) => {
     return {
-      
+      city:getCityList(state)
     };
   };
   

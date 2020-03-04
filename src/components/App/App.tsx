@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './App.module.scss';
+// import style from './App.module.scss';
 import { Switch, Route } from 'react-router';
 import { routes, AppRoute} from './Routes';
 
@@ -26,7 +26,7 @@ private renderRoute = (route: AppRoute, index: number) => {
 
   render() {
     return (
-      <div className={style.App}>
+      <div>
          {this.renderPage()}
       </div>
     );
