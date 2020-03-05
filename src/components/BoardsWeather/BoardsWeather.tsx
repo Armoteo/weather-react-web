@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store';
 import { getCityList } from '../../store/BoardsWeather/selectors';
 import { CityBoard } from '../CityBoard';
+import { Header } from '../Header';
+import { Footer } from '../Footer';
 
 interface MainPageProps extends RouteChildrenProps {
     city?: Array<string>;
@@ -23,9 +25,11 @@ this.props.city?.map((item, index)=>
 render(){
     return(
         <div className={style.BoardsWeather}>
+           <Header/>
           <div className={style.Container}>
           {this.renderCityBoards()}
           </div>
+          <Footer/>
         </div>
     )
 }
