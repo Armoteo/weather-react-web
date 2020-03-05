@@ -17,10 +17,12 @@ class BoardsWeather extends React.Component<MainPageProps>{
   private renderCityBoards = () =>
     this.props.city?.map((item, index) =>
       <CityBoard
-        key={index}
+        key={String(index)}
+        id={String(index)}
         city={item}
       />
     );
+
   render() {
     return (
       <div className={style.BoardsWeather}>

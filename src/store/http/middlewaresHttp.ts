@@ -11,11 +11,10 @@ const makeUrl = (path: string) => {
 
 //GET
 export const requestWorker: Worker<any> = async ({ action, next, getState }) => {
-    const { path, onSuccess, method = "GET"} = action;
+    const { path, onSuccess, method = "GET" } = action;
     const options: any = {
-        method, headers: {
-            Accept: 'application/json', 'Content-Type': 'application/json',
-        }
+        method,
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
     };
     const response = await fetch(makeUrl(path), options);
     if (response.status >= 400) {

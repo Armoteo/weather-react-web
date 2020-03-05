@@ -1,18 +1,16 @@
 import { combineReducers, compose, createStore, applyMiddleware } from 'redux';
 import http, { httpMiddlewares, HTTPState } from './http';
-import { initMiddleware } from './initialization';
 import connectRouter from './router';
 import { History } from 'history';
-import city, { boardsMiddleware } from './BoardsWeather';
+import city from './BoardsWeather';
+import listWeather, { WeatherMiddleware } from './CityBoard';
 
 
 export interface AppState {
     http: HTTPState;
     router?: any;
     city?: any;
-    listBoard?: any;
-    profile?:any;
-    listCard?:any;
+    listWeather?: any;
 }
 //@ts-ignore
 const t = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -24,7 +22,8 @@ export default function configureStore(history: History) {
     const rootReducer = combineReducers<AppState>({
         router: connectRouter(history),
         http,
-        city
+        city,
+        listWeather
     });
     return createStore(
         rootReducer,
@@ -32,8 +31,7 @@ export default function configureStore(history: History) {
         composeEnhancers(
             applyMiddleware(
                 ...httpMiddlewares,
-                ...initMiddleware,
-                ...boardsMiddleware
+                ...WeatherMiddleware
             ))
     );
 }
