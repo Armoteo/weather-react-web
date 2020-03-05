@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 
 interface CityBoardProps {
-    id?: string;
+    id?: any;
     city?: string;
     temp?: string;
     icon?: string;
@@ -21,14 +21,15 @@ class CityBoard extends React.Component<CityBoardProps>{
     }
 
     render() {
-        console.log(this.props.listWeather.listWeather.name);
-        const { id, city, temp, icon } = this.props;
+       
+        const {id, city, listWeather} = this.props;
+
+        console.log(listWeather.listWeather[id]);
+
         return (
             <div className={style.CityBoard}>
                 <h2>{id} {city}</h2>
                 <div className={style.Content}>
-                    <span><img src={icon} alt='icon'></img></span>
-                    <span>{temp}</span>
                 </div>
             </div>
         )

@@ -15,7 +15,10 @@ export default (
 ) => {
   switch (type) {
     case ACTION_TYPES.SET_CITY_WEATHER:
-      return { ...state, listWeather: payload };
+      return { 
+        ...state, listWeather: [...state.listWeather, payload]
+        // ...state, listWeather: state.listWeather.concat(payload)
+       };
     default:
       return state;
   }
