@@ -8,13 +8,11 @@ const makeUrl = (path: string) => {
     return url;
 };
 
-
 //GET
 export const requestWorker: Worker<any> = async ({ action, next, getState }) => {
     const { path, onSuccess, method = "GET" } = action;
     const options: any = {
-        method,
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
+        method
     };
     const response = await fetch(makeUrl(path), options);
     if (response.status >= 400) {
@@ -24,14 +22,10 @@ export const requestWorker: Worker<any> = async ({ action, next, getState }) => 
     onSuccess(data);
 };
 
-
 const requestMiddlewaresHttp = ({ dispatch, getState }: any) =>
     (next: any) =>
         subscribe(ACTION_TYPES.REQUEST, requestWorker)(next,
             dispatch, getState);
-
-
-
 
 export const httpMiddlewares = [requestMiddlewaresHttp];
 

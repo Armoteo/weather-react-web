@@ -10,7 +10,7 @@ interface CityBoardProps {
     city?: string;
     temp?: string;
     icon?: string;
-
+    listWeather?:any;
     fetchWeather?: (data: any) => void;
 }
 
@@ -21,7 +21,7 @@ class CityBoard extends React.Component<CityBoardProps>{
     }
 
     render() {
-        console.log(this.props);
+        console.log(this.props.listWeather.listWeather.name);
         const { id, city, temp, icon } = this.props;
         return (
             <div className={style.CityBoard}>
@@ -37,7 +37,7 @@ class CityBoard extends React.Component<CityBoardProps>{
 
 const mapStateToProps = (state: AppState) => {
     return {
-        listsWeather: state.listWeather,
+        listWeather: state.listWeather,
     };
 };
 
