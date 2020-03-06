@@ -2,8 +2,8 @@ import { combineReducers, compose, createStore, applyMiddleware } from 'redux';
 import http, { httpMiddlewares, HTTPState } from './http';
 import connectRouter from './router';
 import { History } from 'history';
-import city from './BoardsWeather';
-import listWeather, { WeatherMiddleware } from './CityBoard';
+import city, { boardsMiddleware } from './BoardsWeather';
+import listWeather from './BoardsWeather';
 
 
 export interface AppState {
@@ -31,7 +31,7 @@ export default function configureStore(history: History) {
         composeEnhancers(
             applyMiddleware(
                 ...httpMiddlewares,
-                ...WeatherMiddleware
+                ...boardsMiddleware
             ))
     );
 }
