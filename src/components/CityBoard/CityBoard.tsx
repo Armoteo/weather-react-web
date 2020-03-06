@@ -3,14 +3,14 @@ import style from './CityBoard.module.scss';
 import { AppState } from '../../store';
 import { fetchWeather } from '../../store/CityBoard';
 import { connect } from 'react-redux';
+import { getCityWeather } from '../../store/CityBoard/selectors';
 
 
 interface CityBoardProps {
-    id?: any;
     city?: string;
     temp?: string;
     icon?: string;
-    listWeather?:any;
+    listWeather?: any;
     fetchWeather?: (data: any) => void;
 }
 
@@ -21,14 +21,12 @@ class CityBoard extends React.Component<CityBoardProps>{
     }
 
     render() {
-       
-        const {id, city, listWeather} = this.props;
 
-        console.log(listWeather.listWeather[id]);
-
+        const { city, listWeather } = this.props;
+        // console.log(listWeather.listWeather[id] ? listWeather.listWeather : 'err');
         return (
             <div className={style.CityBoard}>
-                <h2>{id} {city}</h2>
+                <h2>{city}</h2>
                 <div className={style.Content}>
                 </div>
             </div>
@@ -38,7 +36,7 @@ class CityBoard extends React.Component<CityBoardProps>{
 
 const mapStateToProps = (state: AppState) => {
     return {
-        listWeather: state.listWeather,
+        listWeather: getCityWeather(state)
     };
 };
 

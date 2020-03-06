@@ -18,7 +18,6 @@ class BoardsWeather extends React.Component<MainPageProps>{
     this.props.city?.map((item, index) =>
       <CityBoard
         key={String(index)}
-        id={index}
         city={item}
       />
     );
