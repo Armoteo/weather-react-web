@@ -4,6 +4,8 @@ import connectRouter from './router';
 import { History } from 'history';
 import city, { boardsMiddleware } from './BoardsWeather';
 import listWeather from './BoardsWeather';
+import geolocation, { GeoWeatherMiddleware } from './GeolocationWeather';
+import list, { CityWeatherMiddleware } from './CityWeather';
 
 
 export interface AppState {
@@ -11,6 +13,8 @@ export interface AppState {
     router?: any;
     city?: any;
     listWeather?: any;
+    geolocation?:any;
+    list?: any;
 }
 //@ts-ignore
 const t = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -23,7 +27,9 @@ export default function configureStore(history: History) {
         router: connectRouter(history),
         http,
         city,
-        listWeather
+        listWeather,
+        geolocation,
+        list
     });
     return createStore(
         rootReducer,
@@ -31,7 +37,9 @@ export default function configureStore(history: History) {
         composeEnhancers(
             applyMiddleware(
                 ...httpMiddlewares,
-                ...boardsMiddleware
+                ...boardsMiddleware,
+                ...GeoWeatherMiddleware,
+                ...CityWeatherMiddleware
             ))
     );
 }

@@ -6,10 +6,14 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 }
-.Container{
-width: 80%;
+.ContainerCityBoard{
+// width: 100%;
 display: flex;
 flex-wrap: wrap;
 padding: 10px 0 10px 0;
 justify-content: space-evenly;
+}
+.ContentContainer{
+    width: 100%;
+    display: flex;
 }

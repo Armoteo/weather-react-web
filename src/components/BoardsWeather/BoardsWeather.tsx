@@ -52,9 +52,11 @@ class BoardsWeather extends React.Component<MainPageProps>{
     return (
       <div className={style.BoardsWeather}>
         <Header />
+      <div className={style.ContentContainer}>
         <GeoCity />
-        <div className={style.Container}>
+        <div className={style.ContainerCityBoard}>
           {this.renderCityBoards()}
+        </div>
         </div>
       </div>
     )
