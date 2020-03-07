@@ -4,7 +4,6 @@ import connectRouter from './router';
 import { History } from 'history';
 import city, { boardsMiddleware } from './BoardsWeather';
 import listWeather from './BoardsWeather';
-import geolocation, { GeoWeatherMiddleware } from './GeolocationWeather';
 import list, { CityWeatherMiddleware } from './CityWeather';
 
 
@@ -28,7 +27,6 @@ export default function configureStore(history: History) {
         http,
         city,
         listWeather,
-        geolocation,
         list
     });
     return createStore(
@@ -38,7 +36,6 @@ export default function configureStore(history: History) {
             applyMiddleware(
                 ...httpMiddlewares,
                 ...boardsMiddleware,
-                ...GeoWeatherMiddleware,
                 ...CityWeatherMiddleware
             ))
     );
