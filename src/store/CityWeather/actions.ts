@@ -1,7 +1,8 @@
 import { ACTION_TYPES } from './types';
 
-export const fetchWeather = () => ({
-  type: ACTION_TYPES.FETCH_WEATHER_CITY
+export const fetchWeather = (data: Array<any>) => ({
+  type: ACTION_TYPES.FETCH_WEATHER_CITY,
+  payload: data
 });
 
 export const setWeatherCityGEO = (data: Array<any>) => ({
