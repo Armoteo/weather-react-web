@@ -4,18 +4,22 @@
     flex-direction: column;
     align-items:center;
     padding: 5px 5px 5px 10px;
-    img{
-        width: 100%;
-        height: 80px;
-        align-items:center;
-    }
+    margin-top: 10px;
 }
 .Content{
     width: 100%;
     display: flex;
     flex-direction: column;
     font-size: 1.2em;
+    h2:first-child{
+        text-decoration: underline;
+    }
 }
 .Icon{
-    display: flexbox;
+    display: flex;
+    align-items:center;
+    img{
+        width: 200%;
+        height: 200%;
+    }
 }

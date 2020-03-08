@@ -35,24 +35,22 @@ private error() {
 }
 
 private renderComponent = ()=>{
-  return this.props.list ? <div className={style.Content}>
-  <h2>Погода в {this.props.list.name}</h2>
+  let list = this.props.list;
+  return  typeof(this.props.list.main) !== "undefined"? <div className={style.Content}>
+  <h2>{list.name}</h2>
   <div className={style.Icon}>
-  {/* <IconWeather icon={list!.weather[0].icon} /> */}
-  {/* <span>{this.props.list.main.temp}</span> */}
+    <IconWeather icon={list.weather[0].icon} />
+    <span>{this.props.list.main.temp} C</span>
   </div>
-  {/* <span>Сегодня {list!.weather[0].description}</span> */}
-  {/* <span>Мин. температура {list!.main.temp_min}</span> */}
-  {/* <span>Макс. температура {list!.main.temp_max}</span> */}
+    <span>Сегодня {list.weather[0].description}</span>
+    <span>Мин. температура {list.main.temp_min} C</span>
+    <span>Макс. температура {list.main.temp_max} C</span>
   </div>:'null';
 }
 
     render() {
-      console.log(this.props.list)
-      const url = '';
         return (
           <div className={style.GeoCity}>
-             <img src={url} alt='city'/>
           {this.renderComponent()}  
           </div>
          
@@ -62,7 +60,7 @@ private renderComponent = ()=>{
 
 const mapStateToProps = (state: AppState) => {
   return {
-    list:getList(state)
+    list:getList(state),
   };
 };
 
