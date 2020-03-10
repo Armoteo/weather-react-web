@@ -38,27 +38,27 @@ class GeoCity extends Component<any> {
   private renderComponent = () => {
     let list = this.props.list;
     return typeof (this.props.list.main) !== "undefined" ?
+
       <div className={style.Content}>
-        <div className={style.ContentBox}>
 
-          <div className={style.Info}>
-            <div className={style.Icon}>
-              <IconWeather icon={list.weather[0].icon} />
-              <span>{this.props.list.main.temp} C</span>
-            </div>
-            <span>Мин. температура {list.main.temp_min} C</span>
-            <span>Макс. температура {list.main.temp_max} C</span>
-            <span>Скорость ветра {list.wind.speed} м/с</span>
+        <div className={style.Info}>
+          <div className={style.Icon}>
+            <IconWeather icon={list.weather[0].icon} />
+            <span>{this.props.list.main.temp} C</span>
           </div>
-          <h1>{list.name}</h1>
-
-          <MyMap
-            name={list.name}
-            latitude={list.coord.lat}
-            longitude={list.coord.lon}
-          />
-
+          <span>Мин. температура {list.main.temp_min} C</span>
+          <span>Макс. температура {list.main.temp_max} C</span>
+          <span>Скорость ветра {list.wind.speed} м/с</span>
         </div>
+
+        <h1>{list.name}</h1>
+
+        <MyMap
+          name={list.name}
+          latitude={list.coord.lat}
+          longitude={list.coord.lon}
+        />
+
       </div> : 'null';
   }
 

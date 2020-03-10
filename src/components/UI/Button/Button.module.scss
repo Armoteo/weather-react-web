@@ -1,0 +1,30 @@
+.Button{
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    color: #000;
+    margin-right: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+    padding: 10px 10px;
+    margin-left: 25px;
+    &:hover{
+      cursor: pointer;
+      border: 1px solid #5b5b5b;
+    };
+    &:disabled {
+      background: #ccc;
+      color: #000;
+      cursor: not-allowed;
+    }
+    &:focus {
+        outline: none;
+      }
+      &:active {
+        box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .3);
+      }
+  }
+  
+  

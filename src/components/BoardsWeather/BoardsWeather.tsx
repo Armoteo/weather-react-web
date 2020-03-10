@@ -15,7 +15,19 @@ interface MainPageProps extends RouteChildrenProps {
   fetchWeather?: (data: any) => void;
 }
 
-class BoardsWeather extends React.Component<MainPageProps>{
+interface stateBoardsWeatherProps {
+  listCity?: Array<String>;
+  text?: string;
+}
+
+
+class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherProps>{
+
+  public state = {
+    listCity: ['Киев', 'Днепр', 'Одесса', 'Николаев', 'Оттава', 'Вашингтон',
+      'Лондон', 'Берлин', 'Париж', 'Пекин'],
+    text: ''
+  }
 
   componentDidMount() {
     this.fetchWeatherCity();
@@ -48,13 +60,22 @@ class BoardsWeather extends React.Component<MainPageProps>{
     ) : 'error';
   };
 
+  private toggleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ text: e.target.value });
+  }
+
+  private addCity = () => {
+    console.log('add city');
+  };
+
   render() {
     return (
       <div className={style.BoardsWeather}>
-        <Header />
-        {/* <div className={style.ContentContainer}> */}
+        <Header
+          toggleText={this.toggleText}
+          addCity={this.addCity}
+        />
         <GeoCity />
-        {/* </div> */}
         <div className={style.ContainerCityBoard}>
           {this.renderCityBoards()}
         </div>
