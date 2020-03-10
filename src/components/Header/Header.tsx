@@ -8,16 +8,20 @@ interface HeaderProps {
     city?: string;
     toggleText?: (data: any) => void;
     addCity?: (data: any) => void;
+    clearStorage?: (data: any) => void;
 }
 
 export class Header extends React.Component<HeaderProps>{
     render() {
-        const { toggleText, addCity } = this.props;
+        const { toggleText, addCity, clearStorage } = this.props;
         return (
             <div className={style.Header}>
                 <Button
                     onClick={addCity}
                 >Добавить город</Button>
+                 <Button
+                    onClick={clearStorage}
+                >Очистить список</Button>
                 <Input
                     toggleText={toggleText}
                 />

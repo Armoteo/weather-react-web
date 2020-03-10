@@ -1,6 +1,6 @@
-import { subscribe } from '../../Utils';
+import { subscribe, getFromLocalStorage } from '../../Utils';
 import { ACTION_TYPES } from './types';
-import { setWeatherCity } from './actions';
+import { setWeatherCity, saveCityList } from './actions';
 import { request } from '../http';
 
 
@@ -27,8 +27,32 @@ const fetchWorker: any = ({
   );
 };
 
+const createListWorker: any = ({
+  action,
+  next,
+  dispatch
+}: {
+  action: any;
+  next: any;
+  dispatch: any;
+}) => {
+  const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
+  console.log('СОЗДАЕМ СПИСОК')
+  const data = JSON.parse(getFromLocalStorage(APP_STORAGE_CITY_LIST)!);
+  if(data !== null){
+    dispatch(saveCityList(data));
+  }
+ 
+};
+
+
+
 const fetchWeatherMiddleware = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.FETCH_WEATHER, fetchWorker)(next, dispatch);
 
+  const createListCityMiddleware = ({ dispatch }: any) => (next: any) =>
+  subscribe(ACTION_TYPES.CREATE_LIST_SITY, createListWorker)(next, dispatch);
 
-export const boardsMiddleware = [fetchWeatherMiddleware];
+
+export const boardsMiddleware = [fetchWeatherMiddleware, createListCityMiddleware];
+
