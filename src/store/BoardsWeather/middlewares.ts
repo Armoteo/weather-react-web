@@ -3,17 +3,6 @@ import { ACTION_TYPES } from './types';
 import { setWeatherCity } from './actions';
 import { request } from '../http';
 
-const fetchBoardsWorker: any = ({
-  action,
-  next,
-  dispatch
-}: {
-  action: any;
-  next: any;
-  dispatch: any;
-}) => {
-  next(action);
-};
 
 const fetchWorker: any = ({
   action,
@@ -38,12 +27,8 @@ const fetchWorker: any = ({
   );
 };
 
-
-const fetchMiddleware = ({ dispatch }: any) => (next: any) =>
-  subscribe(ACTION_TYPES.SET_CITY, fetchBoardsWorker)(next, dispatch);
-
 const fetchWeatherMiddleware = ({ dispatch }: any) => (next: any) =>
   subscribe(ACTION_TYPES.FETCH_WEATHER, fetchWorker)(next, dispatch);
 
 
-export const boardsMiddleware = [fetchMiddleware, fetchWeatherMiddleware];
+export const boardsMiddleware = [fetchWeatherMiddleware];
