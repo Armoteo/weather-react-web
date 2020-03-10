@@ -30,15 +30,16 @@ class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherPro
   }
 
   componentDidMount() {
-    this.createCityArr();
-    this.fetchWeatherCity();
+    this.createCityArr(this.fetchWeatherCity());
+    // this.fetchWeatherCity();
   }
 
-  private createCityArr = ()=>{
+  private createCityArr = (callback:any)=>{
     this.props.createCityListNew!();
+    return callback;
   }
 
-  private fetchWeatherCity() {
+  private fetchWeatherCity= () =>{
     const { city } = this.props;
     for (let i = 0; i < city!.length; i++) {
       this.props.fetchWeather!(city![i]);
@@ -88,14 +89,14 @@ alert('Есть такой город');
   newArrayCity = JSON.stringify(arrCity.concat(text));
   this.saveStorage(newArrayCity);
 }
-this.createCityArr();
+this.createCityArr(this.fetchWeatherCity());
   };
 
 private saveStorage = (data:string)=>setToLocalStorage(APP_STORAGE_CITY_LIST, data);
 
 private clearStorage = ()=>{
   setToLocalStorage(APP_STORAGE_CITY_LIST, null);
-  this.createCityArr();
+  this.createCityArr(this.fetchWeatherCity());
 };
 
 private getCityListStorage = ()=> getFromLocalStorage(APP_STORAGE_CITY_LIST);
