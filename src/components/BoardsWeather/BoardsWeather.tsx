@@ -27,28 +27,30 @@ class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherPro
 
   public state = {
     text: ''
-  }
+  };
 
   componentDidMount() {
-    this.createCityArr(this.fetchWeatherCity());
-    // this.fetchWeatherCity();
+    this.createCityArr();
+    this.fetchWeatherCity();
   }
 
-  private createCityArr = (callback:any)=>{
+  private  createCityArr = ()=>{
     this.props.createCityListNew!();
-    return callback;
-  }
+    this.fetchWeatherCity();
+  };
 
   private fetchWeatherCity= () =>{
-    const { city } = this.props;
+    let { city } = this.props;
+
+    console.log(city);
     for (let i = 0; i < city!.length; i++) {
       this.props.fetchWeather!(city![i]);
     }
-  }
+  };
 
   private clickBoardCity = (data: string, id: string) => {
     console.log(data, id);
-  }
+  };
 
   private renderCityBoards = () => {
     const { listWeather } = this.props.listWeather;
@@ -68,41 +70,42 @@ class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherPro
 
   private toggleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ text: e.target.value });
-  }
+  };
 
   private addCity =  () =>{
     this.saveCityListStorage('Токио');
   };
 
   private saveCityListStorage = (text:string)=>{
-let arrCity:any, newArrayCity;
-if(JSON.parse(this.getCityListStorage()!) !== null){
-arrCity= JSON.parse(this.getCityListStorage()!);
-if(arrCity.find((el:any)=>el === text)){
-alert('Есть такой город');
-}else{
-  newArrayCity = JSON.stringify([...arrCity, text]);
-  this.saveStorage(newArrayCity);
-}
-}else{
-  arrCity = [];
-  newArrayCity = JSON.stringify(arrCity.concat(text));
-  this.saveStorage(newArrayCity);
-}
-this.createCityArr(this.fetchWeatherCity());
-  };
+    let arrCity:any, newArrayCity;
+    if(JSON.parse(this.getCityListStorage()!) !== null){
+      arrCity= JSON.parse(this.getCityListStorage()!);
+      if(arrCity.find((el:any)=>el === text)){
+        alert('Есть такой город');
+      }else{
+        newArrayCity = JSON.stringify([...arrCity, text]);
+        this.saveStorage(newArrayCity);
+      }
+    }else{
+      arrCity = [];
+      newArrayCity = JSON.stringify(arrCity.concat(text));
+      this.saveStorage(newArrayCity);
+    }
+    this.fetchWeatherCity();
+    // this.createCityArr(this.fetchWeatherCity());
+    };
 
 private saveStorage = (data:string)=>setToLocalStorage(APP_STORAGE_CITY_LIST, data);
 
 private clearStorage = ()=>{
   setToLocalStorage(APP_STORAGE_CITY_LIST, null);
-  this.createCityArr(this.fetchWeatherCity());
+
 };
 
 private getCityListStorage = ()=> getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
   render() {
-    console.log(this.props.city);
+
     return (
       <div className={style.BoardsWeather}>
         <Header

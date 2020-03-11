@@ -37,7 +37,6 @@ const createListWorker: any = ({
   dispatch: any;
 }) => {
   const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
-  console.log('СОЗДАЕМ СПИСОК')
   const data = JSON.parse(getFromLocalStorage(APP_STORAGE_CITY_LIST)!);
   if(data !== null){
     dispatch(saveCityList(data));
