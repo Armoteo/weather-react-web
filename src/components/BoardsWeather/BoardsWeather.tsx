@@ -19,6 +19,7 @@ interface MainPageProps extends RouteChildrenProps {
 interface stateBoardsWeatherProps {
   text?: string;
   listCity?: Array<string>;
+  nameAddCity?: string;
 }
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
@@ -29,21 +30,21 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
     text: '',
     listCity: ['Киев', 'Днепр', 'Одесса', 'Николаев', 'Оттава', 'Вашингтон',
       'Лондон', 'Берлин', 'Париж', 'Пекин'],
+    nameAddCity: ''
   };
 
   componentDidMount() {
     this.createListCity(this.fetchWeatherCity);
+    // this.clearStorage();
   }
 
-  public createListCity = (func: any) => {
+  public createListCity = (callback: any) => {
     const { listCity } = this.state;
     this.props.clearWeatherCity!();
     if (JSON.parse(this.getCityListStorage()!) !== null) {
-      this.setState({ listCity: listCity.concat(JSON.parse(this.getCityListStorage()!)) });
-      return func(listCity.concat(JSON.parse(this.getCityListStorage()!)));
+      return callback(listCity.concat(JSON.parse(this.getCityListStorage()!)));
     } else {
-      this.setState({ listCity: listCity });
-      return func(listCity);
+      return callback(listCity);
     }
   }
 
@@ -57,27 +58,22 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
     console.log(data, id);
   };
 
-  private renderCityBoards = () => {
-    const { listWeather } = this.props.listWeather;
-    return this.props.listWeather ? listWeather.map((item: any, index: number) =>
-      <CityBoard
-        key={String(index)}
-        city={item.name}
-        id={item.id}
-        temp={item.main.temp}
-        icon={item.weather[0].icon}
-        description={item.weather[0].description}
-        clickBoardCity={this.clickBoardCity}
-      />
-    ) : 'error';
-  };
-
   private toggleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ text: e.target.value });
   };
 
+  private toggleCityName = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ nameAddCity: e.target.value });
+  };
+
   private addCity = () => {
-    this.saveCityListStorage('Токио');
+    let nameCityAdd = this.state.nameAddCity.trim();
+    if (nameCityAdd !== '') {
+      this.saveCityListStorage(nameCityAdd);
+    } else {
+      alert('Неверное имя города');
+    }
+    this.setState({ nameAddCity: '' });
   };
 
   private saveCityListStorage(text: string) {
@@ -85,7 +81,7 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
     if (JSON.parse(this.getCityListStorage()!) !== null) {
       arrCity = JSON.parse(this.getCityListStorage()!);
       if (arrCity.find((el: any) => el === text)) {
-        alert('Есть такой город');
+        alert('В списке есть данный город');
       } else {
         newArrayCity = JSON.stringify([...arrCity, text]);
         this.saveStorage(newArrayCity);
@@ -107,14 +103,32 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
 
   private getCityListStorage = () => getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
+
+
+  private renderCityBoards = () => {
+    const { listWeather } = this.props.listWeather;
+    return this.props.listWeather ? listWeather.map((item: any, index: number) =>
+      <CityBoard
+        key={String(index)}
+        city={item.name}
+        id={item.id}
+        temp={item.main.temp}
+        icon={item.weather[0].icon}
+        description={item.weather[0].description}
+        clickBoardCity={this.clickBoardCity}
+      />
+    ) : 'error';
+  };
+
   render() {
-    console.log(this.props.listWeather);
     return (
       <div className={style.BoardsWeather}>
         <Header
           toggleText={this.toggleText}
+          toggleCityName={this.toggleCityName}
           addCity={this.addCity}
           clearStorage={this.clearStorage}
+          value = {this.state.nameAddCity}
         />
         <GeoCity />
         <div className={style.ContainerCityBoard}>

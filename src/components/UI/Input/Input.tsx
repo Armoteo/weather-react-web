@@ -2,9 +2,10 @@ import React from "react";
 import style from './Input.module.scss'
 
 
-export const Input = ({ toggleText }: any) => {
+export const Input = ({ toggleText, placeholder, value }: any) => {
     return <input className={style.Input}
-        placeholder="search"
+        placeholder={placeholder}
         onChange={toggleText}
+        value={value}
     />;
 };
