@@ -17,9 +17,10 @@ interface MainPageProps extends RouteChildrenProps {
 }
 
 interface stateBoardsWeatherProps {
-  text?: string;
+  textSearch?: string;
   listCity?: Array<string>;
   nameAddCity?: string;
+  listCityArray?: Array<any>;
 }
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
@@ -27,9 +28,8 @@ const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
 class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeatherProps>{
 
   public state = {
-    text: '',
-    listCity: ['Киев', 'Днепр', 'Одесса', 'Николаев', 'Оттава', 'Вашингтон',
-      'Лондон', 'Берлин', 'Париж', 'Пекин'],
+    textSearch: '',
+    listCity: [],
     nameAddCity: ''
   };
 
@@ -44,7 +44,10 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
     if (JSON.parse(this.getCityListStorage()!) !== null) {
       return callback(listCity.concat(JSON.parse(this.getCityListStorage()!)));
     } else {
-      return callback(listCity);
+      const listCityArray = ['Киев', 'Днепр', 'Одесса', 'Николаев', 'Оттава', 'Вашингтон',
+        'Лондон', 'Берлин', 'Париж', 'Пекин'];
+      this.saveStorage(JSON.stringify(listCityArray));
+      return callback(listCityArray);
     }
   }
 
@@ -59,7 +62,7 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
   };
 
   private toggleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ text: e.target.value });
+    this.setState({ textSearch: e.target.value });
   };
 
   private toggleCityName = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -103,11 +106,18 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
 
   private getCityListStorage = () => getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
-
+  private filterSearchItem = (data: any) => {
+    const { textSearch } = this.state;
+    return data.filter((el: any) => {
+      let name = el.name.toLowerCase();
+      return name.indexOf(textSearch.toLowerCase()) !== -1;
+    })
+  };
 
   private renderCityBoards = () => {
     const { listWeather } = this.props.listWeather;
-    return this.props.listWeather ? listWeather.map((item: any, index: number) =>
+    let newArray = this.filterSearchItem(listWeather);
+    return this.props.listWeather ? newArray.map((item: any, index: number) =>
       <CityBoard
         key={String(index)}
         city={item.name}
@@ -128,7 +138,7 @@ class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeathe
           toggleCityName={this.toggleCityName}
           addCity={this.addCity}
           clearStorage={this.clearStorage}
-          value = {this.state.nameAddCity}
+          value={this.state.nameAddCity}
         />
         <GeoCity />
         <div className={style.ContainerCityBoard}>
