@@ -3,7 +3,7 @@ import style from './BoardsWeather.module.scss';
 import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { getCityList, getCityWeather, createCityList } from '../../store/BoardsWeather';
+import { getCityWeather, clearWeatherCity } from '../../store/BoardsWeather';
 import { CityBoard } from '../CityBoard';
 import { Header } from '../Header';
 import { GeoCity } from '../GeoCity';
@@ -11,40 +11,45 @@ import { fetchWeather } from '../../store/BoardsWeather';
 import { setToLocalStorage, getFromLocalStorage } from '../../Utils';
 
 interface MainPageProps extends RouteChildrenProps {
-  city?: Array<string>;
   listWeather?: any;
   fetchWeather?: (data: any) => void;
-  createCityListNew?:()=>void;
+  clearWeatherCity?: () => void;
 }
 
 interface stateBoardsWeatherProps {
   text?: string;
+  listCity?: Array<string>;
 }
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
 
-class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherProps>{
+class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeatherProps>{
 
   public state = {
-    text: ''
+    text: '',
+    listCity: ['Киев', 'Днепр', 'Одесса', 'Николаев', 'Оттава', 'Вашингтон',
+      'Лондон', 'Берлин', 'Париж', 'Пекин'],
   };
 
   componentDidMount() {
-    this.createCityArr();
-    this.fetchWeatherCity();
+    this.createListCity(this.fetchWeatherCity);
   }
 
-  private  createCityArr = ()=>{
-    this.props.createCityListNew!();
-    this.fetchWeatherCity();
-  };
+  public createListCity = (func: any) => {
+    const { listCity } = this.state;
+    this.props.clearWeatherCity!();
+    if (JSON.parse(this.getCityListStorage()!) !== null) {
+      this.setState({ listCity: listCity.concat(JSON.parse(this.getCityListStorage()!)) });
+      return func(listCity.concat(JSON.parse(this.getCityListStorage()!)));
+    } else {
+      this.setState({ listCity: listCity });
+      return func(listCity);
+    }
+  }
 
-  private fetchWeatherCity= () =>{
-    let { city } = this.props;
-
-    console.log(city);
-    for (let i = 0; i < city!.length; i++) {
-      this.props.fetchWeather!(city![i]);
+  private fetchWeatherCity = (listCity: any) => {
+    for (let i = 0; i < listCity!.length; i++) {
+      this.props.fetchWeather!(listCity![i]);
     }
   };
 
@@ -63,7 +68,6 @@ class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherPro
         icon={item.weather[0].icon}
         description={item.weather[0].description}
         clickBoardCity={this.clickBoardCity}
-
       />
     ) : 'error';
   };
@@ -72,40 +76,39 @@ class BoardsWeather extends React.Component<MainPageProps, stateBoardsWeatherPro
     this.setState({ text: e.target.value });
   };
 
-  private addCity =  () =>{
+  private addCity = () => {
     this.saveCityListStorage('Токио');
   };
 
-  private saveCityListStorage = (text:string)=>{
-    let arrCity:any, newArrayCity;
-    if(JSON.parse(this.getCityListStorage()!) !== null){
-      arrCity= JSON.parse(this.getCityListStorage()!);
-      if(arrCity.find((el:any)=>el === text)){
+  private saveCityListStorage(text: string) {
+    let arrCity: any, newArrayCity;
+    if (JSON.parse(this.getCityListStorage()!) !== null) {
+      arrCity = JSON.parse(this.getCityListStorage()!);
+      if (arrCity.find((el: any) => el === text)) {
         alert('Есть такой город');
-      }else{
+      } else {
         newArrayCity = JSON.stringify([...arrCity, text]);
         this.saveStorage(newArrayCity);
       }
-    }else{
+    } else {
       arrCity = [];
       newArrayCity = JSON.stringify(arrCity.concat(text));
       this.saveStorage(newArrayCity);
     }
-    this.fetchWeatherCity();
-    // this.createCityArr(this.fetchWeatherCity());
-    };
+    this.createListCity(this.fetchWeatherCity);
+  };
 
-private saveStorage = (data:string)=>setToLocalStorage(APP_STORAGE_CITY_LIST, data);
+  private saveStorage = (data: string) => setToLocalStorage(APP_STORAGE_CITY_LIST, data);
 
-private clearStorage = ()=>{
-  setToLocalStorage(APP_STORAGE_CITY_LIST, null);
+  private clearStorage = () => {
+    setToLocalStorage(APP_STORAGE_CITY_LIST, null);
+    this.createListCity(this.fetchWeatherCity);
+  };
 
-};
-
-private getCityListStorage = ()=> getFromLocalStorage(APP_STORAGE_CITY_LIST);
+  private getCityListStorage = () => getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
   render() {
-
+    console.log(this.props.listWeather);
     return (
       <div className={style.BoardsWeather}>
         <Header
@@ -124,7 +127,6 @@ private getCityListStorage = ()=> getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
 const mapStateToProps = (state: AppState) => {
   return {
-    city: getCityList(state),
     listWeather: getCityWeather(state)
   };
 };
@@ -132,7 +134,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchWeather: (data: any) => dispatch(fetchWeather(data)),
-    createCityListNew:() => dispatch(createCityList())
+    clearWeatherCity: () => dispatch(clearWeatherCity())
   };
 };
 
