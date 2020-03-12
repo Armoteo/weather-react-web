@@ -4,6 +4,7 @@ import IconWeather from '../IconWeather/IconWeather';
 
 
 
+
 interface CityBoardProps {
     id?: string;
     city?: string;

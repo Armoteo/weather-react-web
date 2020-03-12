@@ -12,12 +12,14 @@ const history = createBrowserHistory();
 const store = configureStore(history);
 
 const app = (
+
     <Provider store={store}>
         <ConnectedRouter history={history}>
-        <App />
+            <App />
         </ConnectedRouter>
     </Provider>
 )
+
 ReactDOM.render(app, document.getElementById('root'));
 
 serviceWorker.unregister();

@@ -1,11 +1,11 @@
 import React from "react";
 import { BoardsWeather } from "../BoardsWeather";
-import { RouteChildrenProps} from "react-router-dom";
-import { NotFound } from "../NotFound";
+import { RouteChildrenProps } from "react-router-dom";
+import { CityWeatherInfo } from "../CityWeatherInfo";
 
 export enum ROUTES_URLS {
     HOME = '/',
-    NOT_FOUND = '/404'
+    CITY_WEATHER = '/weather'
 }
 
 export interface AppRoute {
@@ -14,19 +14,17 @@ export interface AppRoute {
     title?: string,
     exact?: boolean,
     isHidden?: boolean,
-    id?: string
 }
 
 export const routes: Array<AppRoute> = [
-
     {
         path: ROUTES_URLS.HOME,
         render: (props: RouteChildrenProps) => <BoardsWeather {...props} />,
         title: 'home'
     },
     {
-        path: ROUTES_URLS.NOT_FOUND,
-        isHidden: true,
-        render: (props: RouteChildrenProps) => <NotFound {...props} />,
+        path: ROUTES_URLS.CITY_WEATHER,
+        render: (props: RouteChildrenProps) => <CityWeatherInfo {...props} />,
+        title: 'weather'
     }
 ]

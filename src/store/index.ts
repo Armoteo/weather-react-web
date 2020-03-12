@@ -12,7 +12,7 @@ export interface AppState {
     router?: any;
     city?: any;
     listWeather?: any;
-    geolocation?:any;
+    geolocation?: any;
     list?: any;
 }
 //@ts-ignore
@@ -39,4 +39,4 @@ export default function configureStore(history: History) {
                 ...CityWeatherMiddleware
             ))
     );
-}
+};

@@ -10,7 +10,7 @@ import { GeoCity } from '../GeoCity';
 import { fetchWeather } from '../../store/BoardsWeather';
 import { setToLocalStorage, getFromLocalStorage } from '../../Utils';
 
-interface MainPageProps extends RouteChildrenProps {
+interface BoardsWeatherProps extends RouteChildrenProps {
   listWeather?: any;
   fetchWeather?: (data: any) => void;
   clearWeatherCity?: () => void;
@@ -25,7 +25,7 @@ interface stateBoardsWeatherProps {
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
 
-class BoardsWeather extends React.PureComponent<MainPageProps, stateBoardsWeatherProps>{
+class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsWeatherProps>{
 
   public state = {
     textSearch: '',

@@ -2,6 +2,7 @@ import React from 'react';
 import style from './Header.module.scss';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
+import { Link } from 'react-router-dom';
 
 
 interface HeaderProps {
@@ -28,6 +29,8 @@ export class Header extends React.Component<HeaderProps>{
                         value={value}
                     />
                 </div>
+                <Link to='/'>page</Link>
+                <Link to='/weather'>2 page</Link>
                 <Button
                     onClick={clearStorage}
                 >Очистить список</Button>
