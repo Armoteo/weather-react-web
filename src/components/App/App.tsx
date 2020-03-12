@@ -4,7 +4,6 @@ import { Switch, Route, withRouter } from 'react-router';
 import { routes, AppRoute } from './Routes';
 import { connect } from 'react-redux';
 
-
 class App extends React.Component {
 
   private renderPage() {
@@ -26,7 +25,6 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(routes)
 
     return (
       <div className={style.App}>

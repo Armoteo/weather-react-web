@@ -19,11 +19,13 @@ export interface AppRoute {
 export const routes: Array<AppRoute> = [
     {
         path: ROUTES_URLS.HOME,
+        exact: true,
         render: (props: RouteChildrenProps) => <BoardsWeather {...props} />,
         title: 'home'
     },
     {
         path: ROUTES_URLS.CITY_WEATHER,
+        exact: false,
         render: (props: RouteChildrenProps) => <CityWeatherInfo {...props} />,
         title: 'weather'
     }
