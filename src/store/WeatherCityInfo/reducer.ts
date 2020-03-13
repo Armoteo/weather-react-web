@@ -2,13 +2,13 @@ import { Action } from '../types';
 import { ACTION_TYPES } from './types';
 
 interface BoardsState {
-  listWeather: Array<String>;
+  listWeatherInfo: Array<String>;
   checkStatusHeader?: boolean;
 }
 
 const INITIAL_STATE = {
-  listWeather: [],
-  checkStatusHeader: true
+  listWeatherInfo: [],
+  checkStatusHeader: false
 };
 
 export default (
@@ -16,15 +16,11 @@ export default (
   { type, payload }: Action<any>
 ) => {
   switch (type) {
-    case ACTION_TYPES.SET_CITY_WEATHER:
+    case ACTION_TYPES.SET_CITY_WEATHER_INFO:
       return {
         ...state,
-        listWeather: [...state.listWeather, payload]
-      };
-    case ACTION_TYPES.CLEAR_CITY_WEATHER:
-      return {
-        ...state,
-        listWeather: []
+        // listWeatherInfo: [...state.listWeatherInfo, payload]
+        listWeatherInfo: payload
       };
     default:
       return state;

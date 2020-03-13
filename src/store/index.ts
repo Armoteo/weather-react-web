@@ -5,6 +5,7 @@ import { History } from 'history';
 import city, { boardsMiddleware } from './BoardsWeather';
 import listWeather from './BoardsWeather';
 import list, { CityWeatherMiddleware } from './CityWeather';
+import listWeatherInfo, { WeatherCityInfoMiddleware } from './WeatherCityInfo';
 
 
 export interface AppState {
@@ -14,6 +15,7 @@ export interface AppState {
     listWeather?: any;
     geolocation?: any;
     list?: any;
+    listWeatherInfo?: any;
 }
 //@ts-ignore
 const t = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -27,7 +29,9 @@ export default function configureStore(history: History) {
         http,
         city,
         listWeather,
-        list
+        list,
+        listWeatherInfo
+
     });
     return createStore(
         rootReducer,
@@ -36,7 +40,8 @@ export default function configureStore(history: History) {
             applyMiddleware(
                 ...httpMiddlewares,
                 ...boardsMiddleware,
-                ...CityWeatherMiddleware
+                ...CityWeatherMiddleware,
+                ...WeatherCityInfoMiddleware
             ))
     );
 };

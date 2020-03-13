@@ -14,3 +14,4 @@ export const clearWeatherCity = () => ({
   type: ACTION_TYPES.CLEAR_CITY_WEATHER,
 });
 
+

@@ -3,15 +3,18 @@ import style from './BoardsWeather.module.scss';
 import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { getCityWeather, clearWeatherCity } from '../../store/BoardsWeather';
+import { getCityWeather, clearWeatherCity, getStatusHeader } from '../../store/BoardsWeather';
 import { CityBoard } from '../CityBoard';
 import { Header } from '../Header';
 import { GeoCity } from '../GeoCity';
 import { fetchWeather } from '../../store/BoardsWeather';
 import { setToLocalStorage, getFromLocalStorage } from '../../Utils';
 
+
 interface BoardsWeatherProps extends RouteChildrenProps {
   listWeather?: any;
+  cityName?: any;
+  statusHeader?: any;
   fetchWeather?: (data: any) => void;
   clearWeatherCity?: () => void;
 }
@@ -24,6 +27,7 @@ interface stateBoardsWeatherProps {
 }
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
+const APP_STORAGE_CITY_ID = 'APP_STORAGE_CITY_ID';
 
 class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsWeatherProps>{
 
@@ -35,7 +39,6 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
 
   componentDidMount() {
     this.createListCity(this.fetchWeatherCity);
-    // this.clearStorage();
   }
 
   public createListCity = (callback: any) => {
@@ -46,7 +49,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
     } else {
       const listCityArray = ['Киев', 'Днепр', 'Одесса', 'Николаев', 'Оттава', 'Вашингтон',
         'Лондон', 'Берлин', 'Париж', 'Пекин'];
-      this.saveStorage(JSON.stringify(listCityArray));
+      this.saveStorage(APP_STORAGE_CITY_LIST, JSON.stringify(listCityArray));
       return callback(listCityArray);
     }
   }
@@ -57,8 +60,8 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
     }
   };
 
-  private clickBoardCity = (data: string, id: string) => {
-    console.log(data, id);
+  private clickBoardCity = (id: string) => {
+    this.saveStorage(APP_STORAGE_CITY_ID, id);
   };
 
   private toggleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -87,17 +90,17 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
         alert('В списке есть данный город');
       } else {
         newArrayCity = JSON.stringify([...arrCity, text]);
-        this.saveStorage(newArrayCity);
+        this.saveStorage(APP_STORAGE_CITY_LIST, newArrayCity);
       }
     } else {
       arrCity = [];
       newArrayCity = JSON.stringify(arrCity.concat(text));
-      this.saveStorage(newArrayCity);
+      this.saveStorage(APP_STORAGE_CITY_LIST, newArrayCity);
     }
     this.createListCity(this.fetchWeatherCity);
   };
 
-  private saveStorage = (data: string) => setToLocalStorage(APP_STORAGE_CITY_LIST, data);
+  private saveStorage = (key: string, data: string) => setToLocalStorage(key, data);
 
   private clearStorage = () => {
     setToLocalStorage(APP_STORAGE_CITY_LIST, null);
@@ -139,6 +142,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
           addCity={this.addCity}
           clearStorage={this.clearStorage}
           value={this.state.nameAddCity}
+          statusHeader={this.props.statusHeader}
         />
         <GeoCity />
         <div className={style.ContainerCityBoard}>
@@ -151,14 +155,15 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
 
 const mapStateToProps = (state: AppState) => {
   return {
-    listWeather: getCityWeather(state)
+    listWeather: getCityWeather(state),
+    statusHeader: getStatusHeader(state)
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     fetchWeather: (data: any) => dispatch(fetchWeather(data)),
-    clearWeatherCity: () => dispatch(clearWeatherCity())
+    clearWeatherCity: () => dispatch(clearWeatherCity()),
   };
 };
 

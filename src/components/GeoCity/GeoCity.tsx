@@ -40,7 +40,6 @@ class GeoCity extends Component<any> {
     return typeof (this.props.list.main) !== "undefined" ?
 
       <div className={style.Content}>
-
         <div className={style.Info}>
           <div className={style.Icon}>
             <IconWeather icon={list.weather[0].icon} />
@@ -50,7 +49,7 @@ class GeoCity extends Component<any> {
           <span>Макс. температура {list.main.temp_max} C</span>
           <span>Скорость ветра {list.wind.speed} м/с</span>
         </div>
-
+        
         <h1>{list.name}</h1>
 
         <MyMap

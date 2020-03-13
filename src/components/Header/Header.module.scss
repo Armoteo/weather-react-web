@@ -1,5 +1,7 @@
 .Header{
    width: 100%;
+.HeaderContent{
+   width: 100%;
    height: 60px;
    background-color: #0078d6;
    color:#fff; 
@@ -7,8 +9,24 @@
    align-items: center;
    justify-content: space-between;
 }
+   a{
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.2em;
+      border-bottom: 1px solid transparent;
+      margin-left: 25px;
+      &:hover{
+         color: #e9e9e9;
+         border-bottom: 1px solid #e9e9e9;
+      }
+   }
+}
 .AddForm{
    display: flex;
    height: 100%;
    align-items:center;
+}
+
+.Clock{
+   width: 25%;
 }
