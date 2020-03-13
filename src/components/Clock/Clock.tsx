@@ -16,19 +16,9 @@ export class Clock extends React.Component {
         )
     };
 
-    // componentDidMount() {
-
-    // };
-
-    componentWillUnmount() {
+    componentDidMount() {
         clearInterval();
     };
-
-    // private timerID = () => {
-    //      setInterval(() =>
-    //         this.getTime(), 50
-    //     );
-    // };
 
     //time update
     getTime() {

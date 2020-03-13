@@ -3,7 +3,6 @@ import style from './Header.module.scss';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
 import { Link } from 'react-router-dom';
-import { Clock } from '../Clock';
 
 
 interface HeaderProps {
@@ -40,7 +39,6 @@ export class Header extends React.Component<HeaderProps>{
             <Button
                 onClick={clearStorage}
             >Очистить список</Button>
-            <Clock />
             <Input
                 toggleText={toggleText}
                 placeholder={'Search'}
@@ -52,7 +50,6 @@ export class Header extends React.Component<HeaderProps>{
         <div className={style.HeaderContent}>
             <Link to='/'><i className="fas fa-reply"> На главную</i></Link>
            <div className={style.Clock}>
-            <Clock />
             </div>
         </div>;
 

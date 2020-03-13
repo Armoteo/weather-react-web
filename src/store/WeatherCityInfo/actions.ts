@@ -10,4 +10,13 @@ export const setWeatherCityInfo = (data: Array<any>) => ({
   payload: data
 });
 
+export const fetchCityPhoto = (data: Array<any>) => ({
+  type: ACTION_TYPES.FETCH_PHOTO_CITY,
+  payload: data
+});
+
+export const setCityPhoto = (data: Array<any>) => ({
+  type: ACTION_TYPES.SET_PHOTO_CITY,
+  payload: data
+});
 

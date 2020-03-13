@@ -3,12 +3,25 @@
     display: flex;
     flex-direction: column;
 }
+.Container{
+    display: flex;
+    align-items:center;
+    justify-content: space-evenly;
+    padding: 10px 0 10px 0 ;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+
 .PhotoCityContainer{
     width: 100%;
-    height: 300px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
     img{
-        width: 100%;
-        height: 100%;
+        border: 2px solid #000;
+        border-radius: 15px;
+        width: 500px;
+        height: 400px;
     }
 }
 
@@ -28,7 +41,6 @@
     }
 }
 .Icon{
-   
     display: flex;
     align-items:center;
     img{
@@ -47,9 +59,7 @@
 }
 
 .ContentInfo{
-    
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
 }

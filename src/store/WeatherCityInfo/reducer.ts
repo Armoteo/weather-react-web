@@ -3,12 +3,14 @@ import { ACTION_TYPES } from './types';
 
 interface BoardsState {
   listWeatherInfo: Array<String>;
-  checkStatusHeader?: boolean;
+  arrayCityPhoto: Array<String>;
+  checkStatusHeader: boolean;
 }
 
 const INITIAL_STATE = {
   listWeatherInfo: [],
-  checkStatusHeader: false
+  checkStatusHeader: false,
+  arrayCityPhoto:[]
 };
 
 export default (
@@ -19,8 +21,12 @@ export default (
     case ACTION_TYPES.SET_CITY_WEATHER_INFO:
       return {
         ...state,
-        // listWeatherInfo: [...state.listWeatherInfo, payload]
         listWeatherInfo: payload
+      };
+      case ACTION_TYPES.SET_PHOTO_CITY:
+      return {
+        ...state,
+        arrayCityPhoto: payload
       };
     default:
       return state;

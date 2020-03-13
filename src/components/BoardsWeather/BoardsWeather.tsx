@@ -28,6 +28,7 @@ interface stateBoardsWeatherProps {
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
 const APP_STORAGE_CITY_ID = 'APP_STORAGE_CITY_ID';
+const APP_STORAGE_CITY_NAME = 'APP_STORAGE_CITY_NAME';
 
 class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsWeatherProps>{
 
@@ -60,8 +61,9 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
     }
   };
 
-  private clickBoardCity = (id: string) => {
+  private clickBoardCity = (city:string, id: string) => {
     this.saveStorage(APP_STORAGE_CITY_ID, id);
+    this.saveStorage(APP_STORAGE_CITY_NAME, city);
   };
 
   private toggleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

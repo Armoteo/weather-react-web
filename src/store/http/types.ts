@@ -11,6 +11,7 @@ export interface RequestPayload<P = any> {
 
 export enum ACTION_TYPES {
     REQUEST = "@@HTTP/REQUEST",
+    REQUEST_CITY_PHOTO = "@@HTTP/REQUEST_CITY_PHOTO",
     SUCCESS = "@@HTTP/SUCCESS",
     ERROR = "@@HTTP/ERROR"
 };

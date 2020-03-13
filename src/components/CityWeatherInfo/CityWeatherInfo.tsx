@@ -4,17 +4,21 @@ import { RouteChildrenProps } from 'react-router';
 import { Header } from '../Header';
 import { connect } from 'react-redux';
 import { AppState } from '../../store';
-import { getStatusHeader, fetchWeatherInfo, getCityWeather } from '../../store/WeatherCityInfo';
+import { getStatusHeader, fetchWeatherInfo, getCityWeather, fetchCityPhoto, getCityArray } from '../../store/WeatherCityInfo';
 import { getFromLocalStorage } from '../../Utils';
 import IconWeather from '../IconWeather/IconWeather';
 
 interface CityWeatherInfoProps extends RouteChildrenProps {
     statusHeader?: any;
     listWeatherInfo?: any;
+    arrayCityPhoto?:any;
     fetchWeatherInfo?: (data: any) => void;
+    fetchCityPhoto?: (data: any) => void;
 }
-// https://unsplash.com/documentation
+
 const APP_STORAGE_CITY_ID = 'APP_STORAGE_CITY_ID';
+const APP_STORAGE_CITY_NAME = 'APP_STORAGE_CITY_NAME';
+
 class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
 
 
@@ -25,15 +29,20 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
 
 
     private getWeatherCity = (callback: any) => {
-        let citiID = getFromLocalStorage(APP_STORAGE_CITY_ID);
+        let citiID = this.getStorage(APP_STORAGE_CITY_ID);
         return citiID ? callback(citiID) : console.log('ERROR');
     }
 
-    private fetchWeather = (cityId: string) => {
-        this.props.fetchWeatherInfo!(cityId)
+    private fetchWeather =  (cityId: string) => {
+        this.props.fetchWeatherInfo!(cityId);
+        let citi = this.getStorage(APP_STORAGE_CITY_NAME);
+        citi? this.props.fetchCityPhoto!(citi):console.log('ERROR');
     }
 
-
+    private getStorage = (data:string)=>{
+        return getFromLocalStorage(data);
+    }
+   
     private renderWeatherContent = () => {
         let list = this.props.listWeatherInfo;
         return typeof (this.props.listWeatherInfo.main) !== "undefined" ?
@@ -57,6 +66,25 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
     };
 
 
+    // results
+    private renderPhotoCity =() =>{
+        const {arrayCityPhoto } = this.props; 
+        if(typeof (this.props.arrayCityPhoto.results) !== "undefined" ){
+        let random = Math.floor(Math.random()*(arrayCityPhoto.results.length));
+        let urlMy = arrayCityPhoto.results[random].urls.raw;
+        const alt = 'photo city'
+        return <div className={style.PhotoCityContainer}>
+                 <img src={urlMy} alt={alt}/>
+             </div>
+        }else{
+            return <div className={style.PhotoCityContainer}>
+            <span>ERROR</span>
+        </div>
+        }
+        
+    };
+
+
     render() {
         const { statusHeader } = this.props;
         return (
@@ -66,10 +94,10 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
                         statusHeader={statusHeader}
                     />
                 </div>
-                <div className={style.PhotoCityContainer}>
-
-                </div>
+                <div className={style.Container}>
+                {this.renderPhotoCity()}
                 {this.renderWeatherContent()}
+                </div>
             </div>
         )
     };
@@ -78,13 +106,15 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
 const mapStateToProps = (state: AppState) => {
     return {
         statusHeader: getStatusHeader(state),
-        listWeatherInfo: getCityWeather(state)
+        listWeatherInfo: getCityWeather(state),
+        arrayCityPhoto:getCityArray(state)
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        fetchWeatherInfo: (data: any) => dispatch(fetchWeatherInfo(data))
+        fetchWeatherInfo: (data: any) => dispatch(fetchWeatherInfo(data)),
+        fetchCityPhoto: (data: any) => dispatch(fetchCityPhoto(data)),
     };
 };
 
