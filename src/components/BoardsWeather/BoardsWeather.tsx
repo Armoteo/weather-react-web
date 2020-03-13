@@ -9,6 +9,7 @@ import { Header } from '../Header';
 import { GeoCity } from '../GeoCity';
 import { fetchWeather } from '../../store/BoardsWeather';
 import { setToLocalStorage, getFromLocalStorage } from '../../Utils';
+import { arrayCityUA } from '../../Utils/arrayCitiesUA';
 
 
 interface BoardsWeatherProps extends RouteChildrenProps {
@@ -136,6 +137,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
   };
 
   render() {
+    console.log(arrayCityUA[0].regions);
     return (
       <div className={style.BoardsWeather}>
         <Header
