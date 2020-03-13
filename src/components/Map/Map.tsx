@@ -3,6 +3,7 @@ import ReactMapGl, { Marker, Popup } from "react-map-gl"
 import style from './Map.module.scss';
 
 
+
 const YOUR_MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYXJtb3RlbyIsImEiOiJjazRhN2U4NHgwMTRnM2VteHgwMXV6aGFyIn0.lP2XFXwnZA_A1bGt0C4YFw';
 
 const MyMap = (props: any) => {
@@ -15,7 +16,7 @@ const MyMap = (props: any) => {
         zoom: 8,
     });
 
-   
+
 
     const [selectStation, setSelectedStation] = useState(null);
     useEffect(() => {
@@ -36,10 +37,12 @@ const MyMap = (props: any) => {
             <ReactMapGl {...viewport}
                 mapboxApiAccessToken={YOUR_MAPBOX_ACCESS_TOKEN}
                 mapStyle="mapbox://styles/armoteo/ck4b2mnej0z301cpcr47k5962"
+
                 onViewportChange={(viewport) => {
                     setViewport(viewport)
                 }}
             >
+
                 <Marker key={props.name}
                     latitude={props.latitude}
                     longitude={props.longitude}
