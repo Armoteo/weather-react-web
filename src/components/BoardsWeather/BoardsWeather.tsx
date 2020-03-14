@@ -25,6 +25,7 @@ interface stateBoardsWeatherProps {
   listCity?: Array<string>;
   nameAddCity?: string;
   listCityArray?: Array<any>;
+  arrayCity?: Array<string>;
 }
 
 const APP_STORAGE_CITY_LIST = 'APP_STORAGE_CITY_LIST';
@@ -36,11 +37,13 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
   public state = {
     textSearch: '',
     listCity: [],
-    nameAddCity: ''
+    // nameAddCity: '',
+    arrayCity:[],
   };
 
   componentDidMount() {
     this.createListCity(this.fetchWeatherCity);
+    this.createArrayCity();
   }
 
   public createListCity = (callback: any) => {
@@ -61,6 +64,14 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
       this.props.fetchWeather!(listCity![i]);
     }
   };
+  
+  private createArrayCity =()=>{
+    const newArrayCityList = arrayCityUA[0].regions.map(item => 
+      item.cities.map(cities => 
+        cities.name));
+      let newArray = newArrayCityList.reduce((flat, current)=>flat.concat(current));
+      this.setState({arrayCity:newArray});
+  }
 
   private clickBoardCity = (city:string, id: string) => {
     this.saveStorage(APP_STORAGE_CITY_ID, id);
@@ -71,18 +82,13 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
     this.setState({ textSearch: e.target.value });
   };
 
-  private toggleCityName = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ nameAddCity: e.target.value });
-  };
-
-  private addCity = () => {
-    let nameCityAdd = this.state.nameAddCity.trim();
+  private addCity = (text:string) => {
+    let nameCityAdd = text.trim();
     if (nameCityAdd !== '') {
       this.saveCityListStorage(nameCityAdd);
     } else {
       alert('Неверное имя города');
     }
-    this.setState({ nameAddCity: '' });
   };
 
   private saveCityListStorage(text: string) {
@@ -137,16 +143,15 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
   };
 
   render() {
-    console.log(arrayCityUA[0].regions);
     return (
       <div className={style.BoardsWeather}>
         <Header
           toggleText={this.toggleText}
-          toggleCityName={this.toggleCityName}
+          // toggleCityName={this.toggleCityName}
           addCity={this.addCity}
           clearStorage={this.clearStorage}
-          value={this.state.nameAddCity}
           statusHeader={this.props.statusHeader}
+          arrayCity={this.state.arrayCity}
         />
         <GeoCity />
         <div className={style.ContainerCityBoard}>

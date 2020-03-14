@@ -7,6 +7,7 @@ import { AppState } from '../../store';
 import { getStatusHeader, fetchWeatherInfo, getCityWeather, fetchCityPhoto, getCityArray } from '../../store/WeatherCityInfo';
 import { getFromLocalStorage } from '../../Utils';
 import IconWeather from '../IconWeather/IconWeather';
+import image from '../resource/city_error.png';
 
 interface CityWeatherInfoProps extends RouteChildrenProps {
     statusHeader?: any;
@@ -31,17 +32,17 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
     private getWeatherCity = (callback: any) => {
         let citiID = this.getStorage(APP_STORAGE_CITY_ID);
         return citiID ? callback(citiID) : console.log('ERROR');
-    }
+    };
 
     private fetchWeather =  (cityId: string) => {
         this.props.fetchWeatherInfo!(cityId);
-        let citi = this.getStorage(APP_STORAGE_CITY_NAME);
-        citi? this.props.fetchCityPhoto!(citi):console.log('ERROR');
-    }
+        let city = this.getStorage(APP_STORAGE_CITY_NAME);
+        city? this.props.fetchCityPhoto!(city):console.log('ERROR');
+    };
 
     private getStorage = (data:string)=>{
         return getFromLocalStorage(data);
-    }
+    };
    
     private renderWeatherContent = () => {
         let list = this.props.listWeatherInfo;
@@ -69,21 +70,22 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
     // results
     private renderPhotoCity =() =>{
         const {arrayCityPhoto } = this.props; 
-        if(typeof (this.props.arrayCityPhoto.results) !== "undefined" ){
-        let random = Math.floor(Math.random()*(arrayCityPhoto.results.length));
-        let urlMy = arrayCityPhoto.results[random].urls.raw;
-        const alt = 'photo city'
-        return <div className={style.PhotoCityContainer}>
-                 <img src={urlMy} alt={alt}/>
-             </div>
-        }else{
-            return <div className={style.PhotoCityContainer}>
-            <span>ERROR</span>
-        </div>
-        }
-        
-    };
+        const alt = 'photo city';
 
+        if(arrayCityPhoto.total !== 0 && arrayCityPhoto.total !== undefined){
+        let random = Math.floor(Math.random()*(arrayCityPhoto.results.length));
+
+        let urlMy = arrayCityPhoto.results[random].urls.raw;
+        return <div className={style.PhotoCityContainer}>
+               <img src={urlMy} alt={alt}/>
+               </div>  
+            }else{
+                let urlMy = image;
+                return <div className={style.PhotoCityContainer}>
+                <img src={urlMy} alt={alt}/>
+            </div>
+            }
+    };
 
     render() {
         const { statusHeader } = this.props;
@@ -101,7 +103,7 @@ class CityWeatherInfo extends React.Component<CityWeatherInfoProps> {
             </div>
         )
     };
-};
+}
 
 const mapStateToProps = (state: AppState) => {
     return {
