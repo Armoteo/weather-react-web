@@ -13,10 +13,10 @@ import { arrayCityUA } from '../../Utils/arrayCitiesUA';
 
 
 interface BoardsWeatherProps extends RouteChildrenProps {
-  listWeather?: any;
-  cityName?: any;
+  listWeather?:any;
+  cityName?: string;
   statusHeader?: any;
-  fetchWeather?: (data: any) => void;
+  fetchWeather?: (data: string) => void;
   clearWeatherCity?: () => void;
 }
 
@@ -24,7 +24,7 @@ interface stateBoardsWeatherProps {
   textSearch?: string;
   listCity?: Array<string>;
   nameAddCity?: string;
-  listCityArray?: Array<any>;
+  listCityArray?: Array<string>;
   arrayCity?: Array<string>;
 }
 
@@ -43,7 +43,6 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
   componentDidMount() {
     this.createListCity(this.fetchWeatherCity);
     this.createArrayCity();
-    // this.clearStorage();
   }
 
   public createListCity = (callback: any) => {
@@ -59,7 +58,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
     }
   }
 
-  private fetchWeatherCity = (listCity: any) => {
+  private fetchWeatherCity = (listCity: Array<string>) => {
     for (let i = 0; i < listCity!.length; i++) {
       this.props.fetchWeather!(listCity![i]);
     }
@@ -92,7 +91,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
   };
 
   private saveCityListStorage(text: string) {
-    let arrCity: any, newArrayCity;
+    let arrCity: Array<string>, newArrayCity:string;
     if (JSON.parse(this.getCityListStorage()!) !== null) {
       arrCity = JSON.parse(this.getCityListStorage()!);
       if (arrCity.find((el: any) => el === text)) {
@@ -111,11 +110,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
 
   private saveStorage = (key: string, data: string) => setToLocalStorage(key, data);
 
-  private clearStorage = () => {
-    setToLocalStorage(APP_STORAGE_CITY_LIST, null);
-    this.createListCity(this.fetchWeatherCity);
-  };
-
+ 
   private deleteBoard = (city:string)=>{
    let oldArray = JSON.parse(this.getCityListStorage()!);
    let newArray = oldArray.filter((item:string )=> item !== city);
@@ -126,7 +121,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
 
   private getCityListStorage = () => getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
-  private filterSearchItem = (data: any) => {
+  private filterSearchItem = (data: Array<string>) => {
     const { textSearch } = this.state;
     return data.filter((el: any) => {
       let name = el.name.toLowerCase();
@@ -157,7 +152,6 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
         <Header
           toggleText={this.toggleText}
           addCity={this.addCity}
-          clearStorage={this.clearStorage}
           statusHeader={this.props.statusHeader}
           arrayCity={this.state.arrayCity}
         />

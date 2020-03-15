@@ -11,10 +11,10 @@ interface HeaderProps {
     value?: string;
     statusHeader?: boolean;
     arrayCity?:Array<string>;
-    toggleText?: (data: any) => void;
-    toggleCityName?: (data: any) => void;
-    addCity?: (data: any) => void;
-    clearStorage?: (data: any) => void;
+    toggleText?: (data: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    toggleCityName?: (data: string) => void;
+    addCity?: (data: string) => void;
+   
 }
 
 
@@ -51,7 +51,7 @@ public state = {
     };
 
     private mainHeader = () => {
-        const { toggleText, clearStorage } = this.props;
+        const { toggleText } = this.props;
         return <div className={style.HeaderContent}>
             <div className={style.AddForm}>
                 <Button
@@ -70,9 +70,6 @@ public state = {
                />
                 </div>
             </div>
-            <Button
-                onClick={clearStorage}
-            >Очистить список</Button>
             <Input
                 toggleText={toggleText}
                 placeholder={'Search'}

@@ -1,8 +1,12 @@
 import { Action } from '../types';
 import { ACTION_TYPES } from './types';
+import { weatherProps } from '../../components/model';
 
+interface listWeatherProps extends weatherProps{
+  
+}
 interface BoardsState {
-  listWeather: Array<String>;
+  listWeather: Array<listWeatherProps>;
   checkStatusHeader?: boolean;
 }
 

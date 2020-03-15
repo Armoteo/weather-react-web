@@ -13,8 +13,8 @@ interface CityWeatherInfoProps extends RouteChildrenProps {
     statusHeader?: any;
     listWeatherInfo?: any;
     arrayCityPhoto?:any;
-    fetchWeatherInfo?: (data: any) => void;
-    fetchCityPhoto?: (data: any) => void;
+    fetchWeatherInfo?: (data: string) => void;
+    fetchCityPhoto?: (data: string) => void;
 }
 
 const APP_STORAGE_CITY_ID = 'APP_STORAGE_CITY_ID';

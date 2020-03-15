@@ -5,11 +5,12 @@ import { getList, fetchWeatherGEO } from '../../store/CityWeather';
 import { connect } from 'react-redux';
 import IconWeather from '../IconWeather/IconWeather';
 import MyMap from '../Map/Map';
+import { RouteChildrenProps } from 'react-router';
 
-interface GeoCityProps {
+interface GeoCityProps extends RouteChildrenProps {
   list?: Array<any>;
 
-  fetchWeather: (data: any) => void;
+  fetchWeather: (data: string) => void;
 }
 
 class GeoCity extends Component<any> {
