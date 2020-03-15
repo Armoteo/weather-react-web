@@ -37,8 +37,7 @@ public state = {
       };
 
       private onChange=(e: React.ChangeEvent<HTMLTextAreaElement>)=>{
-        console.log(e.target.value);
-        this.setState({cityName:e.target.value})
+        this.setState({cityName:e.target.innerHTML})
       }
 
       private addCityName = ()=>{
@@ -67,6 +66,7 @@ public state = {
                <DropList
                arrayToggleCity={this.state.arrayToggleCity}
                onChange={this.onChange}
+               cityName={this.state.cityName}
                />
                 </div>
             </div>

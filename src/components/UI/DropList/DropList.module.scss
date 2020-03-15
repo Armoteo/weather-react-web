@@ -1,12 +1,24 @@
 .DropList {
-  width:100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-left: 10px;
+    
+    position: absolute;
+    top:78%;
+    right: 15%;
   }
-  
-  .DropListInput {
-    width: 100%;
-    padding-left: 5px;
+  .List{
+    width: 155px;
+    text-align: center;
+    background-color:#fff;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    border:1px solid #000;
+      li{
+        width: 100%;
+        list-style: none;
+        color:#000;
+        background-color:#fff;
+        &:hover{
+          background-color:rgb(204, 200, 200);
+        }
+      }
   }

@@ -3,6 +3,7 @@
     padding-left: 3px;
     border-radius: 4px;
     margin-right: 25px;
+    z-index: 99999;
     &::placeholder {
         color: #bbbbbb;
     }

@@ -37,13 +37,13 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
   public state = {
     textSearch: '',
     listCity: [],
-    // nameAddCity: '',
     arrayCity:[],
   };
 
   componentDidMount() {
     this.createListCity(this.fetchWeatherCity);
     this.createArrayCity();
+    // this.clearStorage();
   }
 
   public createListCity = (callback: any) => {
@@ -116,6 +116,14 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
     this.createListCity(this.fetchWeatherCity);
   };
 
+  private deleteBoard = (city:string)=>{
+   let oldArray = JSON.parse(this.getCityListStorage()!);
+   let newArray = oldArray.filter((item:string )=> item !== city);
+   this.saveStorage(APP_STORAGE_CITY_LIST, JSON.stringify(newArray));
+   this.createListCity(this.fetchWeatherCity);
+  }
+
+
   private getCityListStorage = () => getFromLocalStorage(APP_STORAGE_CITY_LIST);
 
   private filterSearchItem = (data: any) => {
@@ -138,6 +146,7 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
         icon={item.weather[0].icon}
         description={item.weather[0].description}
         clickBoardCity={this.clickBoardCity}
+        deleteBoard={this.deleteBoard}
       />
     ) : 'error';
   };
@@ -147,7 +156,6 @@ class BoardsWeather extends React.PureComponent<BoardsWeatherProps, stateBoardsW
       <div className={style.BoardsWeather}>
         <Header
           toggleText={this.toggleText}
-          // toggleCityName={this.toggleCityName}
           addCity={this.addCity}
           clearStorage={this.clearStorage}
           statusHeader={this.props.statusHeader}

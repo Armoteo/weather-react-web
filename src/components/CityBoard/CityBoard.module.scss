@@ -1,8 +1,11 @@
 .CityBoard{
-   width: 250px;
-   height: 150px;
+   width: 260px;
+   height: 160px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
    background-image: linear-gradient(to right top, #2d76e4, #0784e8, #0090eb, #009cec, #12a7eb);
-   border-radius: 25px;
+   border-radius: 15px;
    box-shadow: 3px 2px 15px -3px rgba(0, 0, 0, 0.7);
    margin: 10px;
    border:2px solid #000;
@@ -15,7 +18,6 @@
       color: #fff;
       display:flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       text-decoration: none;
    }
@@ -25,4 +27,17 @@
    display: flex;
    justify-content: space-evenly;
    align-items:center;
+}
+.Delete{
+   // width: 90%;
+   display: flex;
+   justify-content: flex-end;
+   padding: 5px 5px 0 0;
+   color: rgb(41, 37, 37);
+   i{
+      &:hover{
+         color:  rgb(187, 184, 184);
+         cursor: pointer;
+      }
+   }
 }
