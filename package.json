@@ -2,7 +2,7 @@
   "name": "weather-react-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": " https://armoteo.github.io/weather-react-web/",
+  
   "dependencies": {
     "@mapbox/mapbox-gl-language": "^0.10.1",
     "@testing-library/jest-dom": "^4.2.4",
