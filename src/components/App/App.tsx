@@ -1,22 +1,22 @@
 import React from 'react';
 import style from './App.module.scss';
-import { Switch, Route, withRouter } from 'react-router';
+import { Switch, Route } from 'react-router';
 import { routes, AppRoute } from './Routes';
-import { connect } from 'react-redux';
 
-class App extends React.Component {
 
-  private renderPage() {
+export const App = () => {
+
+  const renderPage = () => {
     return (
       <main>
         <Switch>
-          {routes.map(this.renderRoute)}
+          {routes.map(renderRoute)}
         </Switch>
       </main>
     )
   };
 
-  private renderRoute = (route: AppRoute, index: number) => {
+  const renderRoute = (route: AppRoute, index: number) => {
     return <Route
       exact={route.exact}
       key={index}
@@ -24,20 +24,9 @@ class App extends React.Component {
       render={(props) => route.render({ ...props })} />
   };
 
-  render() {
-
-    return (
-      <div className={style.App}>
-        {this.renderPage()}
-      </div>
-    );
-  }
+  return (
+    <div className={style.App}>
+      {renderPage()}
+    </div>
+  );
 };
-
-const mapDispatchProps = (dispatch: any) => {
-  return {
-  };
-};
-
-const AppWithRouter = withRouter(connect(undefined, mapDispatchProps)(App));
-export { AppWithRouter as App };
